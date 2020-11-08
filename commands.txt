@@ -8,3 +8,8 @@ python manage.py migrate
 python manage.py createsuperuser
 
 pip install djangorestframework
+
+TESTING 
+pip install coverage 
+coverage run --omit='*/venv/*' manage.py test 
+coverage html
