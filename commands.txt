@@ -3,6 +3,8 @@ django-admin startapp blog
 django-admin startapp blog_api 
 python manage.py makemigrations --dry-run --verbosity 3 
 python manage.py runserver
+python manage.py makemigrations
 python manage.py migrate
+python manage.py createsuperuser
 
 pip install djangorestframework

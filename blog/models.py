@@ -42,5 +42,5 @@ class Post(models.Model):
         ordering = ('-published',)
     
     def __str__(self):
-        self.title
+        return self.title
 
