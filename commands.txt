@@ -1,0 +1,8 @@
+django-admin startproject core .
+django-admin startapp blog 
+django-admin startapp blog_api 
+python manage.py makemigrations --dry-run --verbosity 3 
+python manage.py runserver
+python manage.py migrate
+
+pip install djangorestframework
