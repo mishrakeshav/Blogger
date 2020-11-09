@@ -4,3 +4,7 @@ npm start
 npm install react-router-dom 
 npm install @material-ui/core 
 pip install django-cors-headers
+
+INFO:
+Strict Mode 
+Strict Mode is a tool for highlighting potential problems in an application. 
