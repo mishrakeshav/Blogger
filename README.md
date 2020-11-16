@@ -3,6 +3,8 @@
 ![Django 3.1](https://img.shields.io/badge/React-17.0.1-green.svg)
 [![license](https://img.shields.io/github/license/DAVFoundation/captain-n3m0.svg?style=flat-square)]()
 # Blogger
+> work in progress!
+
 A opensource blog application made using React and Django Rest Framework
 ## Features Included
 - Custom Admin dashboard
