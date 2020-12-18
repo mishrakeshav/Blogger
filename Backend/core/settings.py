@@ -143,7 +143,8 @@ REST_FRAMEWORK = {
 
 # allowed ports to access the api
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://192.168.0.107:3000",
 ]
 
 # Custom user model
