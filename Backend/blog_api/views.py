@@ -1,10 +1,14 @@
-from rest_framework import generics
-from blog.models import Post
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, serializers
 from .serializers import PostSerializer
 from rest_framework.permissions import (
     IsAdminUser , DjangoModelPermissions, 
     BasePermission,SAFE_METHODS,IsAuthenticatedOrReadOnly
 )
+from rest_framework import viewsets, filters
+from rest_framework.response import Response
+
+from blog.models import Post
 
 class PostUserWritePermission(BasePermission):
     message = 'Editing posts is restricted to the author only'
@@ -15,15 +19,55 @@ class PostUserWritePermission(BasePermission):
         return request.user == obj.author
 
 
-class PostList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticatedOrReadOnly,]
-    queryset = Post.postobjects.all()
+# using ModelViewSet
+class PostList(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly, ]
     serializer_class = PostSerializer
 
-class PostDetail(generics.RetrieveUpdateDestroyAPIView,PostUserWritePermission):
-    permission_classes = [PostUserWritePermission,]
-    queryset = Post.objects.all() 
-    serializer_class = PostSerializer
+    def get_object(self, queryset=None,**kwargs):
+        item = self.kwargs.get('pk')
+        print(item,'here')
+        return get_object_or_404(Post, slug=item)
+
+    # Define Custom QuerySet
+    def get_queryset(self):
+        return Post.postobjects.all()
+
+
+
+
+# using ViewSet 
+# class PostList(viewsets.ViewSet):
+#     permission_classes = [IsAuthenticatedOrReadOnly,]
+#     queryset = Post.postobjects.all()
+
+#     def list(self,request):
+#         serializer_class = PostSerializer(self.queryset,many=True)
+#         return Response(serializer_class.data)
+
+#     def retrieve(self,request,pk=None):
+#         post =  get_object_or_404(self.queryset,pk=pk)
+#         serializer_class = PostSerializer(post)
+#         return Response(serializer_class.data)
+
+#     def update(self,request, pk=None):
+#         pass 
+
+#     def partial_update(self,request,pk=None):
+#         pass 
+
+#     def destroy(self,request,pk=None):
+#         pass 
+
+# class PostList(generics.ListCreateAPIView):
+#     permission_classes = [IsAuthenticatedOrReadOnly,]
+#     queryset = Post.postobjects.all()
+#     serializer_class = PostSerializer
+
+# class PostDetail(generics.RetrieveUpdateDestroyAPIView,PostUserWritePermission):
+#     permission_classes = [PostUserWritePermission,]
+#     queryset = Post.objects.all() 
+#     serializer_class = PostSerializer
 
 
 """ Concrete View Classes
