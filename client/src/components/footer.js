@@ -7,6 +7,13 @@ import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
+	'@global': {
+		ul: {
+			margin: 0,
+			padding: 0,
+			listStyle: 'none',
+		},
+	},
 	footer: {
 		borderTop: `1px solid ${theme.palette.divider}`,
 		marginTop: theme.spacing(8),
@@ -31,6 +38,7 @@ function Copyright() {
 		</Typography>
 	);
 }
+
 const footers = [
 	{
 		title: 'Company',
@@ -91,6 +99,5 @@ function Footer() {
 		</React.Fragment>
 	);
 }
-
 
 export default Footer;

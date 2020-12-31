@@ -49,9 +49,9 @@ const Posts = (props) => {
 							<Grid item key={post.id} xs={12} md={4}>
 								<Card className={classes.card}>
 									<Link
-										color = "textPrimary"
-										href = {'post/' + post.slug}
-										className = {classes.link}
+										color="textPrimary"
+										href={'post/' + post.slug}
+										className={classes.link}
 									>
 										<CardMedia
 											className={classes.cardMedia}
@@ -69,12 +69,8 @@ const Posts = (props) => {
 											{post.title.substr(0, 50)}...
 										</Typography>
 										<div className={classes.postText}>
-											<Typography
-												component="p"
-												color="textPrimary"
-											></Typography>
-											<Typography variant="p" color="textSecondary">
-												{post.excerpt.substr(0, 60)}...
+											<Typography color="textSecondary">
+												{post.excerpt.substr(0, 40)}...
 											</Typography>
 										</div>
 									</CardContent>

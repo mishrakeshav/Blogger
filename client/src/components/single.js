@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Post() {
 	const { slug } = useParams();
 	const classes = useStyles();
-	console.log(slug);
+
 	const [data, setData] = useState({ posts: [] });
 
 	useEffect(() => {
@@ -27,7 +27,7 @@ export default function Post() {
 			setData({ posts: res.data });
 			console.log(res.data);
 		});
-	}, [setData, slug]);
+	}, [setData]);
 
 	return (
 		<Container component="main" maxWidth="md">

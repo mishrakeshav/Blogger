@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PostLoadingComponent(Component) {
+function PostLoading(Component) {
 	return function PostLoadingComponent({ isLoading, ...props }) {
 		if (!isLoading) return <Component {...props} />;
 		return (
@@ -10,4 +10,4 @@ function PostLoadingComponent(Component) {
 		);
 	};
 }
-export default PostLoadingComponent;
+export default PostLoading;
