@@ -5,7 +5,7 @@
 # Blogger
 > work in progress!
 
-A opensource blog application made using React and Django Rest Framework
+A blog application made React and Django Rest Framework
 ## Features Included
 - Custom Admin dashboard
 - Search Functionality
@@ -18,7 +18,8 @@ A opensource blog application made using React and Django Rest Framework
 
 **1. Clone Repository & Install Packages**
 ```sh
-git clone https://github.com/mishrakeshav/Django-Real-Estate-Website.git
+git clone https://github.com/mishrakeshav/Blogger.git
+cd server
 pip install -r requirements.txt
 ```
 **2. Setup Environment**
@@ -31,11 +32,11 @@ OR on Windows
 python -m  venv venv
 activate.bat
 ``````
-And 
+**Start React App**
 ```sh
-cd FrontEnd/blogapi 
-npm install 
-npm start 
+cd client/blogapi 
+yarn install 
+yarn start 
 ``````
 
 **3. Migrate & Start Server**
