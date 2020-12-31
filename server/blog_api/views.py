@@ -65,12 +65,13 @@ class PostList(generics.ListAPIView):
     queryset = Post.postobjects.all()
     serializer_class = PostSerializer
 
-class PostDetail(generics.ListAPIView):
+class PostDetail(generics.RetrieveAPIView):
     serializer_class = PostSerializer
 
-    def get_queryset(self):
+    def get_object(self):
         slug = self.request.query_params.get('slug', None)
-        return Post.objects.filter(slug=slug)
+        print(slug)
+        return get_object_or_404(Post,slug=slug)
 
 class PostSearch(generics.ListAPIView):
     queryset = Post.objects.all()
