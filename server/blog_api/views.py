@@ -1,106 +1,76 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, serializers
-from .serializers import PostSerializer
-from rest_framework.permissions import (
-    AllowAny, IsAdminUser , DjangoModelPermissions, 
-    BasePermission,SAFE_METHODS,IsAuthenticatedOrReadOnly
-)
-from rest_framework import viewsets, filters
-from rest_framework.response import Response
-from rest_framework import filters
-
 from blog.models import Post
+from .serializers import PostSerializer
+from rest_framework import viewsets, filters, generics, permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-class PostUserWritePermission(BasePermission):
-    message = 'Editing posts is restricted to the author only'
-
-    def has_object_permission(self,request,view,obj):
-        if request.method in SAFE_METHODS:
-            return True 
-        return request.user == obj.author
-
-
-# using ModelViewSet
-# class PostList(viewsets.ModelViewSet):
-#     permission_classes = [IsAuthenticatedOrReadOnly, ]
-#     serializer_class = PostSerializer
-
-#     def get_object(self, queryset=None,**kwargs):
-#         item = self.kwargs.get('pk')
-#         print(item,'here')
-#         return get_object_or_404(Post, slug=item)
-
-#     # Define Custom QuerySet
-#     def get_queryset(self):
-#         return Post.postobjects.all()
-
-
-
-
-# using ViewSet 
-# class PostList(viewsets.ViewSet):
-#     permission_classes = [IsAuthenticatedOrReadOnly,]
-#     queryset = Post.postobjects.all()
-
-#     def list(self,request):
-#         serializer_class = PostSerializer(self.queryset,many=True)
-#         return Response(serializer_class.data)
-
-#     def retrieve(self,request,pk=None):
-#         post =  get_object_or_404(self.queryset,pk=pk)
-#         serializer_class = PostSerializer(post)
-#         return Response(serializer_class.data)
-
-#     def update(self,request, pk=None):
-#         pass 
-
-#     def partial_update(self,request,pk=None):
-#         pass 
-
-#     def destroy(self,request,pk=None):
-#         pass 
+# Display Posts
 
 class PostList(generics.ListAPIView):
-    permission_classes = [IsAuthenticatedOrReadOnly,]
-    queryset = Post.postobjects.all()
+
     serializer_class = PostSerializer
+    queryset = Post.objects.all()
 
 class PostDetail(generics.RetrieveAPIView):
+
     serializer_class = PostSerializer
 
-    def get_object(self):
-        slug = self.request.query_params.get('slug', None)
-        print(slug)
-        return get_object_or_404(Post,slug=slug)
+    def get_object(self, queryset=None, **kwargs):
+        item = self.kwargs.get('pk')
+        return get_object_or_404(Post, slug=item)
 
-class PostSearch(generics.ListAPIView):
+# Post Search
+
+class PostListDetailfilter(generics.ListAPIView):
+  
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ["^slug"]
-
     # '^' Starts-with search.
     # '=' Exact matches.
-    # '@' Full-text search. (Currently only supported Django's PostgreSQL backend.)
-    # '$' Regex search.
+    search_fields = ['^slug']
+
+# Post Admin
+
+class CreatePost(generics.CreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+class AdminPostDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+class EditPost(generics.UpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+
+class DeletePost(generics.RetrieveDestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+    
 
 """ Concrete View Classes
-#CreateAPIView
+# CreateAPIView
 Used for create-only endpoints.
-#ListAPIView
+# ListAPIView
 Used for read-only endpoints to represent a collection of model instances.
-#RetrieveAPIView
+# RetrieveAPIView
 Used for read-only endpoints to represent a single model instance.
-#DestroyAPIView
+# DestroyAPIView
 Used for delete-only endpoints for a single model instance.
-#UpdateAPIView
+# UpdateAPIView
 Used for update-only endpoints for a single model instance.
-##ListCreateAPIView
+# ListCreateAPIView
 Used for read-write endpoints to represent a collection of model instances.
 RetrieveUpdateAPIView
 Used for read or update endpoints to represent a single model instance.
-#RetrieveDestroyAPIView
+# RetrieveDestroyAPIView
 Used for read or delete endpoints to represent a single model instance.
-#RetrieveUpdateDestroyAPIView
+# RetrieveUpdateDestroyAPIView
 Used for read-write-delete endpoints to represent a single model instance.
 """
