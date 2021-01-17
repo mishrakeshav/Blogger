@@ -5,6 +5,7 @@ import PostLoadingComponent from './components/posts/postLoading';
 import axiosInstance from './axios';
 
 function App() {
+	
 	const PostLoading = PostLoadingComponent(Posts);
 	const [appState, setAppState] = useState({
 		loading: true,
@@ -12,10 +13,11 @@ function App() {
 	});
 
 	useEffect(() => {
+		console.log(axiosInstance)
 		axiosInstance.get().then((res) => {
 			const allPosts = res.data;
 			setAppState({ loading: false, posts: allPosts });
-			console.log(res.data);
+			console.log(axiosInstance.headers)
 		});
 	}, [setAppState]);
 	return (
