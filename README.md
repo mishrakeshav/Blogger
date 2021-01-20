@@ -5,7 +5,7 @@
 # Blogger
 > work in progress!
 
-A blog application made React and Django Rest Framework
+A blog application made using React and Django Rest Framework
 ## Features Included
 - Custom Admin dashboard
 - Search Functionality
